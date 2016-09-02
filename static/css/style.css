@@ -2,28 +2,55 @@ body {
   font-family: 'Martel Sans', Helvetica, Arial, sans-serif;
 }
 
+#parentBottomOptions{
+  margin-bottom: 10px;
+}
 
-.stravaStyle{
-  display:inline-block;
-  text-decoration:none;
+.tButtons{
+
+  width:183px
+}
+
+.bottomOptions{
+  float: left; 
+  width: 24%;
+  display: inline-block;
+  overflow:hidden;
+  min-width: 185px;
+  margin-top: 15px;
+  margin-left: 2px;
+}
+
+@media screen and (max-width: 800px) {
+    .bottomOptions{
+        width:100%;
+    }
+}
+
+
+.stravaStyle, .stravaStyle:visited{
   color:white;
   background-color:#FF4500;
-  height: 35px; 
-  line-height:35px;
-  width:150px;
-  margin-right: 10px
-
+  border-color: #e62e00;
 }
 
-.fitbitStyle{
-  text-decoration:none;
-  display:inline-block;
+.stravaStyle:hover{
+  background-color: #DF3A01;
+  border-color: #DF3A01;
+}
+
+.fitbitStyle, .fitbitStyle:visited{
   color:white;
   background-color:#008B8B;
-  height: 35px; 
-  line-height:35px;
-  width:150px
+  border-color: #008B8B;
 }
+
+.fitbitStyle:hover{
+  background-color: #0B615E;
+  border-color: #008B8B;
+  color:white;
+}
+
 
 #signIn:hover #logoutSpace{
   visibility: visible;

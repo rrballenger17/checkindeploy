@@ -129,17 +129,17 @@ def add_checkin(request):
                     if("Walk" in str(form.cleaned_data['mode'])):
                         walkTotal += form.cleaned_data['duration']
 
-                stravaDisplay = ''
-                if 'strava_access_token' in request.session:
-                    stravaDisplay = 'display'
 
-                fitbitDisplay = ''
-                if 'fitbit_name' in request.session:
-                    fitbitDisplay = 'display'
+                request.session['bike_total'] = bikeTotal
+                request.session['run_total'] = runTotal
+                request.session['walk_total'] = walkTotal
+                request.session['calories_burned'] = commutersurvey.calories_total
 
 
                 write_formset_cookies(request, leg_formset_WRTW, leg_formset_WRFW, leg_formset_NormalTW, leg_formset_NormalFW)
                 send_email(commutersurvey)
+
+                logoutSteps(request)
 
                 return render_to_response(
                     'survey/thanks.html',
@@ -152,8 +152,6 @@ def add_checkin(request):
                         'bike_total' : bikeTotal,
                         'run_total' : runTotal,
                         'walk_total' : walkTotal,
-                        'strava_display' : stravaDisplay,
-                        'fitbit_display' : fitbitDisplay,
                     },
                     context_instance=RequestContext(request))
             else:
@@ -211,13 +209,7 @@ def add_checkin(request):
             commute_copy = NormalIdenticalToWalkrideForm()
 
 
-    fitbit_name = ''
-    if 'fitbit_name' in request.session:
-        fitbit_name = request.session['fitbit_name']
-
-    strava_username = ''
-    if 'strava_username' in request.session:
-        strava_username = request.session['strava_username']
+ 
 
     # now just go ahead and render.
     return render(request, "survey/new_checkin.html",
@@ -232,10 +224,7 @@ def add_checkin(request):
                       'normal_copy': normal_copy,
                       'wrday_copy': wrday_copy,
                       'commute_copy': commute_copy,
-                      #'fullname': stravaDict['fullname'],
-                      #'email': stravaDict['email'],
-                      'strava_username': strava_username,
-                      'fitbit_name': fitbit_name
+                      
                   })
 
 def send_email(commutersurvey):
@@ -318,7 +307,9 @@ def stravaLogin(request):
             return redirect('logout_all')
 
     #return {'fullname' : fullname, 'email' : email, 'stravaUsername': stravaUsername, 'stravaCode': stravaCode }
-    return redirect('commuterform')
+
+    url = '/stravaupload/' + str(request.session['bike_total']) + '/' + str(request.session['run_total']) + '/' + str(request.session['walk_total'])
+    return redirect(url)
 
 
 def stravaupload(request, bikeTotal, runTotal, walkTotal):
@@ -355,7 +346,8 @@ def stravaupload(request, bikeTotal, runTotal, walkTotal):
         requests.post("https://www.strava.com/api/v3/activities", data=params)
 
 
-    return HttpResponse('<h1>Page was found</h1>')
+    return render(request, "survey/upload_complete.html",
+                  {})
 
 
 def logoutSteps(request):
@@ -429,7 +421,10 @@ def fitbitLogin(request):
 
         request.session['fitbit_name'] = jTwo['user']['displayName']
 
-        return redirect('commuterform')
+
+        url = '/fitbitupload/' + str(request.session['bike_total']) + '/' + str(request.session['run_total']) + '/' + str(request.session['walk_total']) + '/' + str(int(request.session['calories_burned']))
+
+        return redirect(url)
 
 
     else:
@@ -490,7 +485,8 @@ def fitbitupload(request, bikeTotal, runTotal, walkTotal, caloriesBurned):
         print(r.text)
 
 
-    return HttpResponse('<h1>Page was found</h1>')
+    return render(request, "survey/upload_complete.html",
+                  {})
   
 
 
