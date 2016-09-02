@@ -110,8 +110,18 @@
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-      ga('create', 'UA-50167726-1', 'gogreenstreets.org');
+
+      var trackingId = 'UA-50167726-1'
+
+
+      if(str(window.location.href).includes("checkintest")){
+        trackingId = 'UA-83585231-1'
+      }
+
+
+      ga('create', trackingId, 'gogreenstreets.org');
       ga('send', 'pageview');
+
     </script>
 
     <script>

@@ -8,7 +8,6 @@
 {% endblock %}
 
 {% block body %}
-
 <section class="thanks-page">
     <div class="row">
       <div class="span12">
@@ -27,61 +26,16 @@
             <p>This special "savings" number is based on a normal commute of driving to work. For all modes of transportation, we calculate carbon dioxide emissions by taking your time spent on a mode and multiplying by an estimated carbon dioxide output for that mode at an estimated average speed for that mode. These estimations are derived from findings by the <a href="http://www.apta.com/resources/statistics/Documents/FactBook/2013-APTA-Fact-Book.pdf">American Public Transportation Association</a>, the <a href="http://www.buses.org/files/ComparativeEnergy.pdf">American Bus Association</a>, and the <a href="http://nhts.ornl.gov/2009/pub/stt.pdf">Federal Highway Administration</a>.</p>
         {% endif %}
 
-       
-
-        <div style="width:100%;float:left;" id="parentBottomOptions">
-          
-            
-
-            <div class="bottomOptions" >
-                <a class="btn btn-large btn-warning tButtons" href="/leaderboard/2016/">View Leaderboard</a>
-                <br>
-            </div>
-
-
-            <div class="bottomOptions" id="stravaSpace">
-                <a href="#" id = "stravaButton" class="btn btn-large btn-primary stravaStyle tButtons" ">Upload to Strava</a>
+        <div class="center-block thanks-actions">
+          <div>
+            <a id="checkin-another" class="btn btn-large btn-primary" href="{% url 'commuterform' %}">Check in another person</a>
+            <br><span>Open in an incognito or private window if <strong>on a public computer</strong>. <a href="http://www.wikihow.com/Activate-Incognito-Mode" target="_blank">See how</a>.</span>
+          </div>
+          <div>
+            <a class="btn btn-large btn-warning" href="/leaderboard/2016/">View Leaderboard</a>
             <br>
-            </div>
-
-            <div class="bottomOptions" id="fitbitSpace">
-                <a href="#"  id ="fitbitButton" class="btn btn-large btn-primary fitbitStyle tButtons" >Upload to FitBit</a>
-
-            <br>
-            </div>
-
-            <div class="bottomOptions" >
-                <a id="checkin-another" class="btn btn-large btn-primary tButtons" href="{% url 'commuterform' %}">Check in another person</a>
-                <br><span>Open in an incognito or private window if <strong>on a public computer</strong>. <a href="http://www.wikihow.com/Activate-Incognito-Mode" target="_blank">See how</a>.</span>
-            </div>
-          
-
+          </div>
         </div>
-
-        <script>
-            function myFunc(){
-                window.open('https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=227S4M&redirect_uri='+ location.protocol + '//' + location.hostname + ':8000/fitbitLogin/&scope=activity%20nutrition%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight')
-                $('#fitbitButton').html("✓");
-                $('#fitbitButton').unbind();
-                $('#fitbitButton').removeAttr("href")
-                $('#fitbitButton').css("background-color", "#0B615E")
-            }
-
-            $("#fitbitButton").click(myFunc)
-
-            function myFuncTwo(){
-                window.open('https://www.strava.com/oauth/authorize?client_id=12852&response_type=code&redirect_uri=' + location.protocol + '//' + location.hostname + ':8000/stravaLogin/' + '&scope=write&state=mystate&approval_prompt=force')
-                $('#stravaButton').html("✓");
-                $('#stravaButton').unbind();
-                $('#stravaButton').removeAttr("href")
-                $('#stravaButton').css("background-color", "#DF3A01")
-
-            }
-
-            $("#stravaButton").click(myFuncTwo)
-
-        </script>
-
         <hr>
         <!-- Information about retail partners rewards. Personal codes here? -->
 
